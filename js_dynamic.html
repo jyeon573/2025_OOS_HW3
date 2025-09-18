@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body { 
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        #items {
+            background: #f2f2f2;
+        }
+
+        #addBtn {
+            background: #27c341;
+        }
+
+        #delBtn {
+            background: #c85045;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Dynamic Lab Page</h1>
+    <div class="row">
+        <input id="items" type="text" />
+        <button id="addBtn">추가</button>
+        <button id="delBtn">삭제</button>
+    </div>
+
+    <ul id="list"></ul>
+</body>
+
+</html>
+
+<script>
+    const input = document.getElementById("items");
+    const list = document.getElementById("list");
+    const addBtn = document.getElementById("addBtn");
+    const delBtn = document.getElementById("delBtn");
+
+    // 추가
+    addBtn.addEventListener("click", () => {
+        if (input.value.trim() !== "") {
+            const li = document.createElement("li");
+            li.textContent = input.value.trim();
+            list.appendChild(li);
+            input.value = ""; // 입력칸 비우기
+        }
+    });
+
+    // 삭제 (마지막 항목)
+    delBtn.addEventListener("click", () => {
+        if (list.lastChild) {
+            list.removeChild(list.lastChild);
+        }
+    });
+</script>
