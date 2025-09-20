@@ -1,98 +1,217 @@
 /* 컨테이너 좌우 여백 살짝 확대 */
-.uk-container { padding-left: 24px; padding-right: 24px; }
+.uk-container {
+    padding-left: 24px;
+    padding-right: 24px;
+}
 
 /* --- 아바타 --- */
 .avatar {
-  width: 44px; height: 44px; border-radius: 50%;
-  display: inline-block; object-fit: cover;
-  background: #d9d9d9; color: #2b2b2b;
-  text-align: center; line-height: 44px;
-  font-weight: 700; font-size: 14px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-block;
+    object-fit: cover;
+    background: #d9d9d9;
+    color: #2b2b2b;
+    text-align: center;
+    line-height: 44px;
+    font-weight: 700;
+    font-size: 14px;
 }
+
 .avatar.avatar-initials {
-  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
 }
 
 /* 테이블(인덱스) 행: 전체 클릭 UX */
-.friend-row { cursor: pointer; }
+.friend-row {
+    cursor: pointer;
+}
+
 .friend-row:hover,
-.friend-row:focus { background-color: rgba(0,0,0,0.06); outline: none; }
-.friend-row:focus-visible { box-shadow: inset 0 0 0 2px rgba(0,123,255,0.6); }
+.friend-row:focus {
+    background-color: rgba(0, 0, 0, 0.06);
+    outline: none;
+}
+
+.friend-row:focus-visible {
+    box-shadow: inset 0 0 0 2px rgba(0, 123, 255, 0.6);
+}
 
 /* 테이블 모바일(카드형) — index에만 쓰고 싶다면 래퍼 id로 감싸서 쓰면 됨 */
 @media (max-width: 600px) {
-  .uk-table thead { position: absolute; left: -9999px; top: -9999px; }
-  .uk-table tbody tr {
-    display: grid;
-    grid-template-columns: 56px 1fr;
-    grid-template-areas:
-      "avatar name"
-      "phone  phone"
-      "email  email"
-      "bday   bday";
-    gap: 6px 12px;
-    padding: 8px 0;
-    align-items: center;
-  }
-  .uk-table tbody td {
-    border: none !important;
-    padding: 7px 16px;
-    white-space: normal;
-  }
-  .cell-avatar { grid-area: avatar; align-self: center; }
-  .cell-name   { grid-area: name;   font-weight: normal; align-self: center; }
-  .cell-phone  { grid-area: phone; }
-  .cell-email  { grid-area: email; }
-  .cell-bday   { grid-area: bday; }
+    .uk-table thead {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+    }
 
-  /* 라벨 프리픽스 */
-  .uk-table tbody td[data-label]::before {
-    content: attr(data-label) ": ";
-    font-weight: normal;
-    opacity: 0.85;
-    margin-right: 8px;
-  }
-  /* 이름 라벨은 숨김 */
-  .cell-name[data-label]::before { content: none !important; margin: 0; }
+    .uk-table tbody tr {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        grid-template-areas:
+            "avatar name"
+            "phone  phone"
+            "email  email"
+            "bday   bday";
+        gap: 6px 12px;
+        padding: 8px 0;
+        align-items: center;
+    }
+
+    .uk-table tbody td {
+        border: none !important;
+        padding: 7px 16px;
+        white-space: normal;
+    }
+
+    .cell-avatar {
+        grid-area: avatar;
+        align-self: center;
+    }
+
+    .cell-name {
+        grid-area: name;
+        font-weight: normal;
+        align-self: center;
+    }
+
+    .cell-phone {
+        grid-area: phone;
+    }
+
+    .cell-email {
+        grid-area: email;
+    }
+
+    .cell-bday {
+        grid-area: bday;
+    }
+
+    /* 라벨 프리픽스 */
+    .uk-table tbody td[data-label]::before {
+        content: attr(data-label) ": ";
+        font-weight: normal;
+        opacity: 0.85;
+        margin-right: 8px;
+    }
+
+    /* 이름 라벨은 숨김 */
+    .cell-name[data-label]::before {
+        content: none !important;
+        margin: 0;
+    }
 }
 
 /* === View(상세) · Add/Edit(폼) 공통: 3열 카드 그리드 === */
-.kv-grid, .form-grid {
-    
-  display: grid;
-  grid-template-columns: repeat(3, minmax(170px, 1fr));
-  gap: 16px;
+.kv-grid,
+.form-grid {
+
+    display: grid;
+    grid-template-columns: repeat(3, minmax(170px, 1fr));
+    gap: 16px;
 }
 
 /* 카드 스타일 */
-.kv, .form-grid .uk-margin {
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-  padding: 10px 16px;
-  margin: 0; /* UIKit 기본 마진 제거 */
+.kv,
+.form-grid .uk-margin {
+    background: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin: 0;
+    /* UIKit 기본 마진 제거 */
 }
 
 /* view 라벨·값 */
-.kv .k { font-size: 12px; opacity: .7; margin-bottom: 6px; }
-.kv .v { font-size: 14px; font-weight: 600; word-break: break-word; }
+.kv .k {
+    font-size: 12px;
+    opacity: .7;
+    margin-bottom: 6px;
+}
+
+.kv .v {
+    font-size: 14px;
+    font-weight: 600;
+    word-break: break-word;
+}
 
 /* 폼 카드 내부 정렬 */
-.form-grid { align-items: stretch; }
-.form-grid .uk-margin { display: flex; flex-direction: column; gap: 8px; }
-.form-grid .uk-form-label { font-size: 12px; font-weight: 600; opacity: .75; margin: 0; }
-.form-grid .uk-form-controls { flex: 1 0 auto; }
-.form-grid .uk-input, .form-grid .uk-select { width: 100%; box-sizing: border-box; height: 44px; }
-.form-grid .uk-textarea { width: 100%; box-sizing: border-box; min-height: 88px; }
+.form-grid {
+    align-items: stretch;
+}
+
+.form-grid .uk-margin {
+    margin: 0 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-grid .uk-form-label {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: .75;
+    margin: 0;
+}
+
+.form-grid .uk-form-controls {
+    flex: 1 0 auto;
+}
+
+.form-grid .uk-input,
+.form-grid .uk-select {
+    width: 100%;
+    box-sizing: border-box;
+    height: 44px;
+}
+
+.form-grid .uk-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 88px;
+}
+
 
 /* 좁으면 1열로 자동 접기 */
 @media (max-width: 600px) {
-  .kv-grid, .form-grid { grid-template-columns: 1fr; }
+
+    .kv-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* 버튼 중앙 + 너비 통일 */
 .form-actions,
-#view-wrap .action-bar { text-align: center; }
+#view-wrap .action-bar {
+    text-align: center;
+}
+
 .form-actions .uk-button,
-#view-wrap .action-bar .uk-button { margin: 0 6px; }
-.btn-eq { min-width: 120px; }
+#view-wrap .action-bar .uk-button {
+    margin: 0 6px;
+}
+
+.btn-eq {
+    min-width: 120px;
+}
+
+/* 버튼 줄 중앙 + 버튼 너비 통일(선택) */
+.form-actions {
+    grid-column: 1 / -1;
+    /* 그리드 전체 폭 차지 */
+    text-align: center;
+}
+
+.form-actions .uk-button {
+    display: inline-block;
+    /* 혹시 상속 문제 방지 */
+    margin: 0 6px;
+}
+
+.btn-eq {
+    min-width: 120px;
+}
+
+/* Edit/Delete와 맞추고 싶으면 유지 */
