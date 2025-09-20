@@ -1,49 +1,55 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/css/uikit.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit-icons.min.js"></script>
-  <link rel="stylesheet" href="my.css">
-  <title>Add Friend</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/css/uikit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" href="my.css">
+    <title>Add Friend</title>
 </head>
+
 <body>
-  <main class="uk-section uk-section-small">
-    <div class="uk-container uk-container-small">
-      <h1 class="uk-h3">Add Friend</h1>
-      <form class="uk-form-stacked" id="add-form">
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Name*</label>
-          <input class="uk-input" name="name" required>
+    <main class="uk-section uk-section-small">
+        <div class="uk-container uk-container-small">
+            <!-- 왼쪽 상단 Back 화살표 -->
+            <a href="index.html" uk-icon="chevron-left" class="uk-margin-small-right"></a>
+            <h1 class="uk-h3 uk-display-inline">View Friend</h1>
+            <form class="uk-form-stacked" id="add-form">
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Name*</label>
+                    <input class="uk-input" name="name" required>
+                </div>
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Phone*</label>
+                    <input class="uk-input" name="phone" required>
+                </div>
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Email*</label>
+                    <input class="uk-input" type="email" name="email" required>
+                </div>
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Birthday*</label>
+                    <input class="uk-input" type="date" name="birthday" required>
+                </div>
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Address</label>
+                    <input class="uk-input" name="address">
+                </div>
+                <div class="uk-margin-small">
+                    <label class="uk-form-label">Relation</label>
+                    <input class="uk-input" name="relation">
+                </div>
+                <div class="uk-margin-top">
+                    <button type="submit" class="uk-button uk-button-primary">Save</button>
+                </div>
+            </form>
         </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Phone*</label>
-          <input class="uk-input" name="phone" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Email*</label>
-          <input class="uk-input" type="email" name="email" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Birthday*</label>
-          <input class="uk-input" type="date" name="birthday" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Address</label>
-          <input class="uk-input" name="address">
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Relation</label>
-          <input class="uk-input" name="relation">
-        </div>
-        <div class="uk-margin-top">
-          <button type="submit" class="uk-button uk-button-primary">추가</button>
-          <a href="index.html" class="uk-button uk-button-default">취소</a>
-        </div>
-      </form>
-    </div>
-  </main>
-  <script src="app.js"></script>
+
+    </main>
+    <script src="app.js"></script>
 </body>
+
 </html>
