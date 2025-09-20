@@ -1,132 +1,66 @@
-.uk-container {
-  padding-left: 24px;  /* 기본은 15px */
-  padding-right: 24px;
-}
+/* 컨테이너 좌우 여백 살짝 확대 */
+.uk-container { padding-left: 24px; padding-right: 24px; }
 
-.friend-row {
-  cursor: pointer;
-}
-.friend-row:hover {
-  background: #f5f5f5; /* hover 시 연한 회색 */
-}
-
-
-
-/* 행 전체 클릭 가능 UX */
-.friend-row {
-  cursor: pointer;
-}
-.friend-row:hover,
-.friend-row:focus {
-  background-color: rgba(0,0,0,0.06); /* 다크테마 쓰면 살짝만 밝게 */
-  outline: none;                      /* 기본 포커스 제거 */
-}
-.friend-row:focus-visible {
-  box-shadow: inset 0 0 0 2px rgba(0,123,255,0.6); /* 키보드 포커스 표시 */
-}
-
-
-/* --- 원형 아바타 --- */
+/* --- 아바타 --- */
 .avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: inline-block;
-    object-fit: cover;
-    background: #d9d9d9; /* 기본 톤 (중립색) */
-    color: #2b2b2b;
-    text-align: center;
-    line-height: 44px;
-    font-weight: 700;
-    font-size: 14px;
+  width: 44px; height: 44px; border-radius: 50%;
+  display: inline-block; object-fit: cover;
+  background: #d9d9d9; color: #2b2b2b;
+  text-align: center; line-height: 44px;
+  font-weight: 700; font-size: 14px;
 }
-
 .avatar.avatar-initials {
-    /* 이미지 없을 때 이니셜 */
-    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
 }
 
-/* 아바타 칸 고정폭 */
-.cell-avatar {
-    width: 56px;
-}
+/* 테이블(인덱스) 행: 전체 클릭 UX */
+.friend-row { cursor: pointer; }
+.friend-row:hover,
+.friend-row:focus { background-color: rgba(0,0,0,0.06); outline: none; }
+.friend-row:focus-visible { box-shadow: inset 0 0 0 2px rgba(0,123,255,0.6); }
 
-/* 공통: 이름/전화/이메일/생일은 굵게 나오지 않게 */
-.cell-name, .cell-phone, .cell-email, .cell-bday {
-    font-weight: normal !important;
-}
-.cell-name strong, .cell-name b,
-.cell-phone strong, .cell-phone b,
-.cell-email strong, .cell-email b,
-.cell-bday strong, .cell-bday b {
-    font-weight: inherit !important;
-}
-
+/* 테이블 모바일(카드형) — index에만 쓰고 싶다면 래퍼 id로 감싸서 쓰면 됨 */
 @media (max-width: 600px) {
+  .uk-table thead { position: absolute; left: -9999px; top: -9999px; }
+  .uk-table tbody tr {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    grid-template-areas:
+      "avatar name"
+      "phone  phone"
+      "email  email"
+      "bday   bday";
+    gap: 6px 12px;
+    padding: 8px 0;
+    align-items: center;
+  }
+  .uk-table tbody td {
+    border: none !important;
+    padding: 7px 16px;
+    white-space: normal;
+  }
+  .cell-avatar { grid-area: avatar; align-self: center; }
+  .cell-name   { grid-area: name;   font-weight: normal; align-self: center; }
+  .cell-phone  { grid-area: phone; }
+  .cell-email  { grid-area: email; }
+  .cell-bday   { grid-area: bday; }
 
-    .uk-table thead {
-        position: absolute;
-        left: -9999px;
-        top: -9999px;
-    }
-
-    .uk-table tbody tr {
-        display: grid;
-        grid-template-columns: 56px 1fr;
-        grid-template-areas:
-            "avatar name"
-            "phone  phone"
-            "email  email"
-            "bday   bday"
-            "addr   addr"
-            "rel    rel";
-        gap: 1px 1px; /* 줄간간격, 아바타와 제목간 간격 */ 
-        padding: 10px 1px; /* 위아래, 양옆 */
-        align-items: center; /* 행 내 요소 수직 정렬 */
-    }
-
-    .uk-table tbody td {
-        border: none !important;
-        padding: 7px 16px; /* 기본 테이블처럼 좌우 여백 */
-        white-space: normal;
-    }
-
-    .cell-avatar { 
-        grid-area: avatar; 
-        align-self: center; 
-    }
-
-    .cell-name { 
-        grid-area: name; 
-        font-weight: normal; 
-        align-self: center; 
-    }
-
-    .cell-phone { grid-area: phone; }
-    .cell-email { grid-area: email; }
-    .cell-bday  { grid-area: bday; }
-    .cell-addr  { grid-area: addr; }
-    .cell-rel   { grid-area: rel; }
-
-    /* 기본 라벨 스타일 (폰/메일/생일 등) */
-    .uk-table tbody td[data-label]::before {
-        content: attr(data-label) ": ";
-        font-weight: normal; /* 굵게 안 나오게 */
-        opacity: 0.85;
-        margin-right: 8px;
-    }
-
-    /* 이름만 라벨 숨김 */
-    .cell-name[data-label]::before {
-        content: none !important;
-        margin: 0;
-    }
+  /* 라벨 프리픽스 */
+  .uk-table tbody td[data-label]::before {
+    content: attr(data-label) ": ";
+    font-weight: normal;
+    opacity: 0.85;
+    margin-right: 8px;
+  }
+  /* 이름 라벨은 숨김 */
+  .cell-name[data-label]::before { content: none !important; margin: 0; }
 }
 
-/* === 공통: 3열 그리드 + 카드 스타일 === */
+/* === View(상세) · Add/Edit(폼) 공통: 3열 카드 그리드 === */
 .kv-grid, .form-grid {
+    
   display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, minmax(170px, 1fr));
   gap: 16px;
 }
 
@@ -135,76 +69,30 @@
   background: #fff;
   border: 1px solid #e8e8e8;
   border-radius: 10px;
-  padding: 12px 14px;
-  margin-bottom: 0; /* UIKit 기본 마진 제거 (grid gap으로 대체) */
+  padding: 10px 16px;
+  margin: 0; /* UIKit 기본 마진 제거 */
 }
 
-/* view 페이지 전용 라벨/값 */
-.kv .k {
-  font-size: 12px;
-  opacity: 0.7;
-  margin-bottom: 6px;
-}
-.kv .v {
-  font-size: 14px;
-  font-weight: 600;
-  word-break: break-word;
-}
+/* view 라벨·값 */
+.kv .k { font-size: 12px; opacity: .7; margin-bottom: 6px; }
+.kv .v { font-size: 14px; font-weight: 600; word-break: break-word; }
 
-/* 버튼 줄은 전체 차지 */
-.form-actions {
-  grid-column: 1 / -1;
-  background: none;
-  border: none;
-  padding: 0;
-}
-/* 3열 그리드 유지 */
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(220px, 1fr));
-  gap: 16px;
-  align-items: stretch; /* 카드 높이 균일 */
-}
-
-/* 그리드 아이템(카드) 리셋 + 카드 스타일 */
-.form-grid .uk-margin {
-  /* UIKit의 위여백 제거가 핵심 */
-  margin: 0 !important;             /* ← 이게 없어서 뜬 거야 */
-  padding: 12px 16px;
-  background: #fff;
-  border: 1px solid #e8e8e8;
-  border-radius: 10px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 8px;                         /* label과 input 간격만 주기 */
-}
-
-/* 라벨은 캡션처럼 */
-.form-grid .uk-form-label {
-  font-size: 12px;
-  font-weight: 600;
-  opacity: 0.75;
-  margin: 0;                        /* UIKit 기본 margin 제거 */
-}
-
-/* 입력 영역이 카드 폭을 꽉 채우게 */
+/* 폼 카드 내부 정렬 */
+.form-grid { align-items: stretch; }
+.form-grid .uk-margin { display: flex; flex-direction: column; gap: 8px; }
+.form-grid .uk-form-label { font-size: 12px; font-weight: 600; opacity: .75; margin: 0; }
 .form-grid .uk-form-controls { flex: 1 0 auto; }
-.form-grid .uk-input,
-.form-grid .uk-select {
-  width: 100%;
-  box-sizing: border-box;
-  height: 44px;                     /* 입력칸 높이 통일 */
-}
+.form-grid .uk-input, .form-grid .uk-select { width: 100%; box-sizing: border-box; height: 44px; }
+.form-grid .uk-textarea { width: 100%; box-sizing: border-box; min-height: 88px; }
 
-/* textarea는 높이 자동 */
-.form-grid .uk-textarea {
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 88px;
-}
-
-/* 좁을 때 1열 */
+/* 좁으면 1열로 자동 접기 */
 @media (max-width: 600px) {
-  .form-grid { grid-template-columns: 1fr; }
+  .kv-grid, .form-grid { grid-template-columns: 1fr; }
 }
+
+/* 버튼 중앙 + 너비 통일 */
+.form-actions,
+#view-wrap .action-bar { text-align: center; }
+.form-actions .uk-button,
+#view-wrap .action-bar .uk-button { margin: 0 6px; }
+.btn-eq { min-width: 120px; }
