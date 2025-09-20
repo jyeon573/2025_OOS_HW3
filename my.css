@@ -1,30 +1,96 @@
-/* 아바타(원) 크기 - 네가 이미 쓰는 값 */
-.avatar{
-  width:44px; height:44px;
-  border-radius:50%;
-  object-fit:cover;
-  display:inline-block;
-  text-align:center; line-height:44px; font-weight:700;
+/* --- 원형 아바타 --- */
+.avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: inline-block;
+    object-fit: cover;
+    background: #d9d9d9; /* 기본 톤 (중립색) */
+    color: #2b2b2b;
+    text-align: center;
+    line-height: 44px;
+    font-weight: 700;
+    font-size: 14px;
 }
 
-/* 데스크톱: 이름을 아바타 중앙과 같은 높이에 정렬 */
-.cell-name,
-.cell-name a{
-  display:flex;
-  align-items:center;     /* 수직 가운데 */
-  min-height:44px;        /* 아바타와 같은 높이 */
+.avatar.avatar-initials {
+    /* 이미지 없을 때 이니셜 */
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans KR", Arial, sans-serif;
 }
 
-/* 600px 이하: 레이아웃만 바꾸되, 높이/정렬 유지 */
-@media (max-width:600px){
-  /* (네가 이미 쓰는 그리드 재배치 규칙들 뒤에) */
-  .cell-name,
-  .cell-name a{
-    display:flex;
-    align-items:center;   /* 여기도 가운데 */
-    min-height:44px;      /* 아바타와 높이 동일 */
-  }
+/* 아바타 칸 고정폭 */
+.cell-avatar {
+    width: 56px;
+}
 
-  /* 이름 앞 data-label 안 보이게(모바일에서 Name 라벨 중복 방지) */
-  .cell-name[data-label]::before{ content:none; }
+/* 공통: 이름/전화/이메일/생일은 굵게 나오지 않게 */
+.cell-name, .cell-phone, .cell-email, .cell-bday {
+    font-weight: normal !important;
+}
+.cell-name strong, .cell-name b,
+.cell-phone strong, .cell-phone b,
+.cell-email strong, .cell-email b,
+.cell-bday strong, .cell-bday b {
+    font-weight: inherit !important;
+}
+
+@media (max-width: 600px) {
+
+    .uk-table thead {
+        position: absolute;
+        left: -9999px;
+        top: -9999px;
+    }
+
+    .uk-table tbody tr {
+        display: grid;
+        grid-template-columns: 56px 1fr;
+        grid-template-areas:
+            "avatar name"
+            "phone  phone"
+            "email  email"
+            "bday   bday"
+            "addr   addr"
+            "rel    rel";
+        gap: 3px 0px;
+        padding: 8px 0;
+        align-items: center; /* 행 내 요소 수직 정렬 */
+    }
+
+    .uk-table tbody td {
+        border: none !important;
+        padding: 0px 16px; /* 기본 테이블처럼 좌우 여백 */
+        white-space: normal;
+    }
+
+    .cell-avatar { 
+        grid-area: avatar; 
+        align-self: center; 
+    }
+
+    .cell-name { 
+        grid-area: name; 
+        font-weight: normal; 
+        align-self: center; 
+    }
+
+    .cell-phone { grid-area: phone; }
+    .cell-email { grid-area: email; }
+    .cell-bday  { grid-area: bday; }
+    .cell-addr  { grid-area: addr; }
+    .cell-rel   { grid-area: rel; }
+
+    /* 기본 라벨 스타일 (폰/메일/생일 등) */
+    .uk-table tbody td[data-label]::before {
+        content: attr(data-label) ": ";
+        font-weight: normal; /* 굵게 안 나오게 */
+        opacity: 0.85;
+        margin-right: 8px;
+    }
+
+    /* 이름만 라벨 숨김 */
+    .cell-name[data-label]::before {
+        content: none !important;
+        margin: 0;
+    }
 }
