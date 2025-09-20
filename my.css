@@ -58,14 +58,14 @@
             "bday   bday"
             "addr   addr"
             "rel    rel";
-        gap: 3px 0px;
-        padding: 8px 0;
+        gap: 1px 1px; /* 줄간간격, 아바타와 제목간 간격 */ 
+        padding: 10px 1px; /* 위아래, 양옆 */
         align-items: center; /* 행 내 요소 수직 정렬 */
     }
 
     .uk-table tbody td {
         border: none !important;
-        padding: 0px 16px; /* 기본 테이블처럼 좌우 여백 */
+        padding: 7px 16px; /* 기본 테이블처럼 좌우 여백 */
         white-space: normal;
     }
 
