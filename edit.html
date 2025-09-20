@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/css/uikit.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit-icons.min.js"></script>
-  <link rel="stylesheet" href="my.css">
-  <title>Edit Friend</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/css/uikit.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.19.4/dist/js/uikit-icons.min.js"></script>
+    <link rel="stylesheet" href="my.css">
+    <title>Edit Friend</title>
 </head>
+
 <body>
-  <main class="uk-section uk-section-small">
-  <div class="uk-container uk-container-small">
+    <main class="uk-section uk-section-small">
+        <div class="uk-container uk-container-small">
 
-    <!-- Back 버튼 -->
-    <a href="#" uk-icon="chevron-left" class="uk-icon-button uk-margin-small-right"
-       onclick="history.back(); return false;" aria-label="Back"></a>
-    <h1 class="uk-h3 uk-display-inline">Edit Friend</h1>
+            <!-- Back 버튼 -->
+            <a href="#" uk-icon="chevron-left" class="uk-icon-button uk-margin-small-right"
+                onclick="history.back(); return false;" aria-label="Back"></a>
+            <h1 class="uk-h3 uk-display-inline">Edit Friend</h1>
 
-    <form class="uk-form-stacked" id="edit-form">
-      <!-- 여기에 입력항목들(Name, Phone, Email...) -->
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Name*</label>
-          <input class="uk-input" name="name" required>
+            <form id="add-form" class="uk-form-stacked form-grid">
+                <div class="uk-margin">
+                    <label class="uk-form-label">Name*</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="name" type="text" placeholder="Name">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label">Phone*</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="phone" type="text" placeholder="010-0000-0000">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label">Email*</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="email" type="email" placeholder="name@example.com">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label">Birthday*</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="birthday" type="date">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label">Address</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="address" type="text">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                    <label class="uk-form-label">Relation</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" name="relation" type="text">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button class="uk-button uk-button-default" type="button"
+                        onclick="location.href='index.html'">Back</button>
+                </div>
+            </form>
         </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Phone*</label>
-          <input class="uk-input" name="phone" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Email*</label>
-          <input class="uk-input" type="email" name="email" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Birthday*</label>
-          <input class="uk-input" type="date" name="birthday" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Address</label>
-          <input class="uk-input" name="address">
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Relation</label>
-          <input class="uk-input" name="relation">
-        </div>
-        <div class="uk-margin-top">
-          <button type="submit" class="uk-button uk-button-primary">Save</button>
-        </div>
-      </form>
-    </div>
-  </main>
-  <script src="app.js"></script>
+    </main>
+    <script src="app.js"></script>
 </body>
+
 </html>

@@ -54,41 +54,41 @@ function renderTable() {
   });
 }
 
-
-// ---- 상세 보기
 function renderView() {
-    const wrap = document.getElementById("view-wrap"); if (!wrap) return;
-    const id = new URLSearchParams(location.search).get("id");
-    if (!id) { wrap.innerHTML = `<p>No data selected <a href="index.html">List</a></p>`; return; }
-    const f = friends.find(x => x.id === id);
-    if (!f) { wrap.innerHTML = `<p>ID <code>${esc(id)}</code> No data <a href="index.html">List</a></p>`; return; }
+  const wrap = document.getElementById("view-wrap"); if (!wrap) return;
+  const id = new URLSearchParams(location.search).get("id");
+  if (!id) { wrap.innerHTML = `<p>No data selected <a href="index.html">List</a></p>`; return; }
+  const f = friends.find(x => x.id === id);
+  if (!f) { wrap.innerHTML = `<p>ID <code>${esc(id)}</code> No data <a href="index.html">List</a></p>`; return; }
 
-    wrap.innerHTML = `
-    <dl class="uk-description-list">
-      <dt>Name</dt><dd>${esc(f.name)}</dd>
-      <dt>Phone</dt><dd>${esc(f.phone)}</dd>
-      <dt>Email</dt><dd>${esc(f.email)}</dd>
-      <dt>Birthday</dt><dd>${esc(f.birthday)}</dd>
-      <dt>Address</dt><dd>${esc(f.address)}</dd>
-      <dt>Relation</dt><dd>${esc(f.relation)}</dd>
-    </dl>
+  // 여기서 #view-wrap 안을 6칸 카드로 그려줌
+  wrap.innerHTML = `
+    <div class="kv-grid">
+      <div class="kv"><div class="k">Name</div><div class="v">${esc(f.name || "")}</div></div>
+      <div class="kv"><div class="k">Phone</div><div class="v">${esc(f.phone || "")}</div></div>
+      <div class="kv"><div class="k">Email</div><div class="v">${esc(f.email || "")}</div></div>
+      <div class="kv"><div class="k">Birthday</div><div class="v">${esc(f.birthday || "")}</div></div>
+      <div class="kv"><div class="k">Address</div><div class="v">${esc(f.address || "")}</div></div>
+      <div class="kv"><div class="k">Relation</div><div class="v">${esc(f.relation || "")}</div></div>
+    </div>
+
     <div class="uk-margin-top">
       <a class="uk-button uk-button-primary" href="edit.html?id=${encodeURIComponent(f.id)}">Edit</a>
       <button id="delBtn" class="uk-button uk-button-danger">Delete</button>
     </div>
   `;
 
-    const del = document.getElementById("delBtn");
-    if (del) {
-        del.onclick = () => {
-            if (confirm("Delete?")) {
-                friends = friends.filter(x => x.id !== id);
-                saveFriends(friends);
-                alert("Deleted");
-                location.href = "index.html";
-            }
-        };
-    }
+  const del = document.getElementById("delBtn");
+  if (del) {
+    del.onclick = () => {
+      if (confirm("Delete?")) {
+        friends = friends.filter(x => x.id !== id);
+        saveFriends(friends);
+        alert("Deleted");
+        location.href = "index.html";
+      }
+    };
+  }
 }
 
 
