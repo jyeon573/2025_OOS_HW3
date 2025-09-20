@@ -7,34 +7,41 @@ let friends = [
 // 공통 escape
 function esc(str){return String(str).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");}
 
-// index 페이지: 테이블 출력
+// 이름 이니셜 생성 (이미지 없을 때)
+function initials(name){
+  return String(name||"")
+    .trim()
+    .split(/\s+/)
+    .map(p=>p[0]||"")
+    .join("")
+    .slice(0,2)
+    .toUpperCase();
+}
+
 function renderTable(){
-  const tbody=document.getElementById("list-body"); if(!tbody) return;
-  tbody.innerHTML=friends.map((f,i)=>`
-    <tr>
-      <td>${i+1}</td>
-      <td><a href="view.html?id=${f.id}">${esc(f.name)}</a></td>
-      <td>${esc(f.relation)}</td>
-      <td>${esc(f.phone)}</td>
-      <td>${esc(f.email)}</td>
-      <td>${esc(f.birthday)}</td>
+  const tbody = document.getElementById("list-body");
+  if (!tbody) return;
 
-    </tr>
-  `).join("");
+  tbody.innerHTML = friends.map((f) => {
+    const avatar = f.avatar
+      ? `<img src="${esc(f.avatar)}" alt="" class="avatar">`
+      : `<span class="avatar avatar-initials">${esc(initials(f.name))}</span>`;
+
+    return `
+      <tr>
+        <td class="cell-avatar">${avatar}</td>
+        <td class="cell-name"   data-label="Name"><a href="view.html?id=${encodeURIComponent(f.id)}">${esc(f.name)}</a></td>
+        <td class="cell-phone"  data-label="Phone">${esc(f.phone||"")}</td>
+        <td class="cell-email"  data-label="Email">${esc(f.email||"")}</td>
+        <td class="cell-bday"   data-label="Birthday">${esc(f.birthday||"")}</td>
+        <td class="cell-addr"   data-label="Address">${esc(f.address||"")}</td>
+        <td class="cell-rel"    data-label="Relation">${esc(f.relation||"")}</td>
+      </tr>
+    `;
+  }).join("");
 }
 
-// index: 삭제 confirm
-function bindDelete(){
-  const tbody=document.getElementById("list-body"); if(!tbody) return;
-  tbody.addEventListener("click",e=>{
-    const btn=e.target.closest("[data-del]"); if(!btn) return;
-    const id=btn.getAttribute("data-del");
-    if(confirm("게시물을 삭제할까요?")){
-      friends=friends.filter(f=>f.id!==id);
-      renderTable();
-    }
-  });
-}
+
 
 // view 페이지: id로 데이터 찾아 표시
 function renderView(){
@@ -46,21 +53,20 @@ function renderView(){
   wrap.innerHTML=`
     <dl class="uk-description-list">
       <dt>Name</dt><dd>${esc(f.name)}</dd>
-      <dt>Relation</dt><dd>${esc(f.relation)}</dd>
       <dt>Phone</dt><dd>${esc(f.phone)}</dd>
       <dt>Email</dt><dd>${esc(f.email)}</dd>
       <dt>Birthday</dt><dd>${esc(f.birthday)}</dd>
       <dt>Address</dt><dd>${esc(f.address)}</dd>
+      <dt>Relation</dt><dd>${esc(f.relation)}</dd>
     </dl>
     <div class="uk-margin-top">
       <a class="uk-button uk-button-primary" href="edit.html?id=${f.id}">Edit</a>
       <button id="delBtn" class="uk-button uk-button-danger">Delete</button>
-      <a href="index.html" class="uk-button uk-button-default">Back</a>
     </div>`;
   document.getElementById("delBtn").onclick=()=>{
-    if(confirm("게시물을 삭제할까요?")){
+    if(confirm("Delete?")){
       friends=friends.filter(x=>x.id!==id);
-      alert("삭제되었습니다");
+      alert("Deleted");
       location.href="index.html";
     }
   }
@@ -72,10 +78,10 @@ function bindAdd(){
   form.onsubmit=e=>{
     e.preventDefault();
     const data=Object.fromEntries(new FormData(form).entries());
-    if(!data.name||!data.relation||!data.phone||!data.email){alert("필수항목 입력하세요");return;}
+    if(!data.name||!data.phone||!data.email||!data.birthday){alert("필수항목 입력하세요");return;}
     data.id="F"+String(Date.now());
     friends.push(data);
-    alert("게시물이 추가됩니다");
+    alert("Added");
     location.href="index.html";
   }
 }
@@ -85,29 +91,29 @@ function bindEdit(){
   const form=document.getElementById("edit-form"); if(!form) return;
   const id=new URLSearchParams(location.search).get("id");
   const f=friends.find(x=>x.id===id);
-  if(!f){form.innerHTML="<p>데이터 없음</p>";return;}
+  if(!f){form.innerHTML="<p>No data</p>";return;}
   form.name.value=f.name;
-  form.relation.value=f.relation;
   form.phone.value=f.phone;
   form.email.value=f.email;
   form.birthday.value=f.birthday;
   form.address.value=f.address;
+  form.relation.value=f.relation;
 
   form.onsubmit=e=>{
     e.preventDefault();
-    if(confirm("게시물을 수정할까요?")){
+    if(confirm("Edit?")){
       f.name=form.name.value;
-      f.relation=form.relation.value;
       f.phone=form.phone.value;
       f.email=form.email.value;
       f.birthday=form.birthday.value;
       f.address=form.address.value;
-      alert("수정되었습니다");
+      f.relation=form.relation.value;
+      alert("Edited");
       location.href="view.html?id="+id;
     }
   }
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
-  renderTable(); bindDelete(); renderView(); bindAdd(); bindEdit();
+  renderTable(); renderView(); bindAdd(); bindEdit();
 });

@@ -10,16 +10,18 @@
 </head>
 <body>
   <main class="uk-section uk-section-small">
-    <div class="uk-container uk-container-small">
-      <h1 class="uk-h3">Edit Friend</h1>
-      <form class="uk-form-stacked" id="edit-form">
+  <div class="uk-container uk-container-small">
+
+    <!-- Back 버튼 -->
+    <a href="#" uk-icon="chevron-left" class="uk-icon-button uk-margin-small-right"
+       onclick="history.back(); return false;" aria-label="Back"></a>
+    <h1 class="uk-h3 uk-display-inline">Edit Friend</h1>
+
+    <form class="uk-form-stacked" id="edit-form">
+      <!-- 여기에 입력항목들(Name, Phone, Email...) -->
         <div class="uk-margin-small">
           <label class="uk-form-label">Name*</label>
           <input class="uk-input" name="name" required>
-        </div>
-        <div class="uk-margin-small">
-          <label class="uk-form-label">Relation*</label>
-          <input class="uk-input" name="relation" required>
         </div>
         <div class="uk-margin-small">
           <label class="uk-form-label">Phone*</label>
@@ -30,16 +32,19 @@
           <input class="uk-input" type="email" name="email" required>
         </div>
         <div class="uk-margin-small">
-          <label class="uk-form-label">Birthday</label>
-          <input class="uk-input" type="date" name="birthday">
+          <label class="uk-form-label">Birthday*</label>
+          <input class="uk-input" type="date" name="birthday" required>
         </div>
         <div class="uk-margin-small">
           <label class="uk-form-label">Address</label>
           <input class="uk-input" name="address">
         </div>
+        <div class="uk-margin-small">
+          <label class="uk-form-label">Relation</label>
+          <input class="uk-input" name="relation">
+        </div>
         <div class="uk-margin-top">
-          <button type="submit" class="uk-button uk-button-primary">수정</button>
-          <a href="index.html" class="uk-button uk-button-default">취소</a>
+          <button type="submit" class="uk-button uk-button-primary">Edit</button>
         </div>
       </form>
     </div>
