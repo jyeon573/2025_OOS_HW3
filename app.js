@@ -50,9 +50,9 @@ function renderTable() {
 function renderView() {
     const wrap = document.getElementById("view-wrap"); if (!wrap) return;
     const id = new URLSearchParams(location.search).get("id");
-    if (!id) { wrap.innerHTML = `<p>선택된 데이터가 없어요. <a href="index.html">목록</a></p>`; return; }
+    if (!id) { wrap.innerHTML = `<p>No data selected <a href="index.html">List</a></p>`; return; }
     const f = friends.find(x => x.id === id);
-    if (!f) { wrap.innerHTML = `<p>ID <code>${esc(id)}</code> 데이터가 없어요. <a href="index.html">목록</a></p>`; return; }
+    if (!f) { wrap.innerHTML = `<p>ID <code>${esc(id)}</code> No data <a href="index.html">List</a></p>`; return; }
 
     wrap.innerHTML = `
     <dl class="uk-description-list">
@@ -73,10 +73,10 @@ function renderView() {
     const del = document.getElementById("delBtn");
     if (del) {
         del.onclick = () => {
-            if (confirm("게시물을 삭제할까요?")) {
+            if (confirm("Delete?")) {
                 friends = friends.filter(x => x.id !== id);
                 saveFriends(friends);
-                alert("삭제되었습니다");
+                alert("Deleted");
                 location.href = "index.html";
             }
         };
@@ -90,12 +90,12 @@ function bindAdd() {
         e.preventDefault();
         const data = Object.fromEntries(new FormData(form).entries());
         if (!data.name || !data.relation || !data.phone || !data.email) {
-            alert("필수항목 입력하세요"); return;
+            alert("Fill out the requirements"); return;
         }
         data.id = "F" + Date.now();
         friends.push(data);
         saveFriends(friends);
-        alert("게시물이 추가됩니다");
+        alert("Added");
         location.href = "index.html";
     };
 }
@@ -105,7 +105,7 @@ function bindEdit() {
     const form = document.getElementById("edit-form"); if (!form) return;
     const id = new URLSearchParams(location.search).get("id");
     const f = friends.find(x => x.id === id);
-    if (!f) { form.innerHTML = "<p>데이터 없음</p>"; return; }
+    if (!f) { form.innerHTML = "<p>No data</p>"; return; }
 
     // 초기 값 채우기 (너가 정한 필드들)
     form.name.value = f.name || "";
@@ -117,7 +117,7 @@ function bindEdit() {
 
     form.onsubmit = (e) => {
         e.preventDefault();
-        if (confirm("게시물을 수정할까요?")) {
+        if (confirm("Edit?")) {
             f.name = form.name.value;
             f.phone = form.phone.value;
             f.email = form.email.value;
@@ -125,7 +125,7 @@ function bindEdit() {
             f.address = form.address.value;
             f.relation = form.relation.value;
             saveFriends(friends);
-            alert("수정되었습니다");
+            alert("Edited");
             location.href = "view.html?id=" + encodeURIComponent(id);
         }
     };
