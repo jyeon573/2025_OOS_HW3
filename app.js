@@ -28,23 +28,32 @@ function initials(name) {
     return String(name || "").trim().split(/\s+/).map(p => p[0] || "").join("").slice(0, 2).toUpperCase();
 }
 
-// ---- 목록 렌더 (너가 정한 컬럼 순서)
 function renderTable() {
-    const tbody = document.getElementById("list-body"); if (!tbody) return;
-    tbody.innerHTML = friends.map(f => {
-        const avatar = f.avatar ? `<img src="${esc(f.avatar)}" alt="" class="avatar">`
-            : `<span class="avatar avatar-initials">${esc(initials(f.name))}</span>`;
-        return `
-      <tr>
+  const tbody = document.getElementById("list-body"); if (!tbody) return;
+  tbody.innerHTML = friends.map(f => {
+    const avatar = f.avatar
+      ? `<img src="${esc(f.avatar)}" alt="" class="avatar">`
+      : `<span class="avatar avatar-initials">${esc(initials(f.name))}</span>`;
+    return `
+      <tr class="friend-row" data-id="${esc(f.id)}">
         <td class="cell-avatar">${avatar}</td>
-        <td class="cell-name"   data-label="Name"><a href="view.html?id=${encodeURIComponent(f.id)}">${esc(f.name)}</a></td>
+        <td class="cell-name"   data-label="Name">${esc(f.name)}</td>
         <td class="cell-phone"  data-label="Phone">${esc(f.phone || "")}</td>
         <td class="cell-email"  data-label="Email">${esc(f.email || "")}</td>
         <td class="cell-bday"   data-label="Birthday">${esc(f.birthday || "")}</td>
- </tr>
+      </tr>
     `;
-    }).join("");
+  }).join("");
+
+  // 각 행에 클릭 이벤트 연결
+  document.querySelectorAll(".friend-row").forEach(row => {
+    row.addEventListener("click", () => {
+      const id = row.dataset.id;
+      window.location.href = `view.html?id=${encodeURIComponent(id)}`;
+    });
+  });
 }
+
 
 // ---- 상세 보기
 function renderView() {
@@ -66,7 +75,6 @@ function renderView() {
     <div class="uk-margin-top">
       <a class="uk-button uk-button-primary" href="edit.html?id=${encodeURIComponent(f.id)}">Edit</a>
       <button id="delBtn" class="uk-button uk-button-danger">Delete</button>
-      <a href="index.html" class="uk-button uk-button-default">Back</a>
     </div>
   `;
 
@@ -83,7 +91,7 @@ function renderView() {
     }
 }
 
-// ---- 추가
+
 function bindAdd() {
     const form = document.getElementById("add-form"); if (!form) return;
     form.onsubmit = (e) => {
@@ -138,4 +146,19 @@ document.addEventListener("DOMContentLoaded", () => {
     renderView();
     bindAdd();
     bindEdit();
+});
+
+addBtn.addEventListener("click", () => {
+  if (input.value.trim() !== "") {
+    const li = document.createElement("li");
+    li.textContent = input.value.trim();
+
+    // 클릭 시 view.html로 이동
+    li.addEventListener("click", () => {
+      window.location.href = "view.html";
+    });
+
+    list.appendChild(li);
+    input.value = ""; // 입력칸 비우기
+  }
 });
