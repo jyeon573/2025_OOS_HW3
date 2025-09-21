@@ -15,60 +15,65 @@
     <main class="uk-section uk-section-small">
         <div class="uk-container uk-container-small">
 
-            <!-- Back 버튼 -->
-            <a href="#" uk-icon="chevron-left" class="uk-icon-button uk-margin-small-right"
-                onclick="history.back(); return false;" aria-label="Back"></a>
+            <div class="uk-margin">
+
+                 <!-- 왼쪽 상단 Back 화살표 + 제목 -->
+            <a href="#" uk-icon="chevron-left" class="uk-margin-small-right"></a>
             <h1 class="uk-h3 uk-display-inline">Edit Friend</h1>
+            <div id="form-wrap" class="uk-margin-top"></div>
 
-            <form id="add-form" class="uk-form-stacked form-grid">
-                <div class="uk-margin">
-                    <label class="uk-form-label">Name*</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="name" type="text" placeholder="Name">
+                
+
+                <form id="add-form" class="uk-form-stacked form-grid">
+                    <div class="uk-margin">
+
+                        <label class="uk-form-label">Name*</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="name" type="text" placeholder="Name">
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <label class="uk-form-label">Phone*</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="phone" type="text" placeholder="010-0000-0000">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Phone*</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="phone" type="text" placeholder="010-0000-0000">
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <label class="uk-form-label">Email*</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="email" type="email" placeholder="name@example.com">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Email*</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="email" type="email" placeholder="name@example.com">
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <label class="uk-form-label">Birthday*</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="birthday" type="date">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Birthday*</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="birthday" type="date">
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <label class="uk-form-label">Address</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="address" type="text">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Address</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="address" type="text">
+                        </div>
                     </div>
-                </div>
 
-                <div class="uk-margin">
-                    <label class="uk-form-label">Relation</label>
-                    <div class="uk-form-controls">
-                        <input class="uk-input" name="relation" type="text">
+                    <div class="uk-margin">
+                        <label class="uk-form-label">Relation</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" name="relation" type="text">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-actions">
-                    <button class="uk-button uk-button-default" type="button"
-                        onclick="location.href='index.html'">Back</button>
-                </div>
-            </form>
-        </div>
+                    <div class="form-actions">
+                        <button class="uk-button uk-button-default" type="button"
+                            onclick="location.href='index.html'">Save</button>
+                    </div>
+                </form>
+            </div>
     </main>
     <script src="app.js"></script>
 </body>
