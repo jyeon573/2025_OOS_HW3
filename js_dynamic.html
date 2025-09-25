@@ -47,10 +47,9 @@
 
     // 추가
     addBtn.addEventListener("click", () => {
-        // 입력값을 공백 기준으로 나눔
-        const words = input.value.trim().split(/\s+/);
+        // 입력값을 콤마(,)나 공백 기준으로 나눔
+        const words = input.value.trim().split(/[,\s]+/);
 
-        // 빈 입력이 아니면 반복해서 li 추가
         words.forEach(word => {
             if (word) {
                 const li = document.createElement("li");
@@ -61,6 +60,7 @@
 
         input.value = ""; // 입력칸 비우기
     });
+
 
 
     // 삭제 (마지막 항목)
