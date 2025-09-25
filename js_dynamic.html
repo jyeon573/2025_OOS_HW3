@@ -7,7 +7,7 @@
     <title>Document</title>
 
     <style>
-        body { 
+        body {
             padding-left: 20px;
             font-family: Arial, Helvetica, sans-serif;
         }
@@ -47,13 +47,21 @@
 
     // 추가
     addBtn.addEventListener("click", () => {
-        if (input.value.trim() !== "") {
-            const li = document.createElement("li");
-            li.textContent = input.value.trim();
-            list.appendChild(li);
-            input.value = ""; // 입력칸 비우기
-        }
+        // 입력값을 공백 기준으로 나눔
+        const words = input.value.trim().split(/\s+/);
+
+        // 빈 입력이 아니면 반복해서 li 추가
+        words.forEach(word => {
+            if (word) {
+                const li = document.createElement("li");
+                li.textContent = word;
+                list.appendChild(li);
+            }
+        });
+
+        input.value = ""; // 입력칸 비우기
     });
+
 
     // 삭제 (마지막 항목)
     delBtn.addEventListener("click", () => {

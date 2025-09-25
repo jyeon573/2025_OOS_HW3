@@ -1,6 +1,5 @@
 // ---- 저장소 키
-const STORAGE_KEY = "friends_v1";
-const VERSION_KEY = "friends:version";     // ✨ 추가: 버전 저장 키
+const STORAGE_KEY = "friends_v1";    // localStorage에 저장할 이름  
 
 // ---- 초기 샘플
 const SEED = [
@@ -41,155 +40,117 @@ const SEED = [
 // ---- 앱 버전 (데이터 바꾸면 숫자 올리기)
 const APP_VERSION = "4";
 
-// ---- 저장/불러오기
+// ---- 저장/불러오기 함수
 function saveFriends(list) {
+  // 배열을 JSON 문자열로 변환해서 localStorage에 저장
   localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
 }
+
 function loadFriends() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(SEED));
-      return SEED.slice();
-    }
-    return JSON.parse(raw);
-  } catch (e) {
-    console.warn(e);
+  // 저장된 데이터 꺼내오기
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) {
+    // 없으면 기본 데이터(SEED) 저장 후 반환
+    saveFriends(SEED);
     return SEED.slice();
   }
+  // 있으면 문자열 → 객체로 변환해서 반환
+  return JSON.parse(raw);
 }
 
-// 전역 데이터 (※ 부트스트랩에서 채움)
-let friends = [];
+// 전역 데이터 (화면에서 사용할 친구 목록)
+let friends = loadFriends();
 
-// ---- 유틸
+// ---- 유틸 함수
 function esc(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+  // HTML 특수문자 막기용 (간단하게만 사용)
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
+
 function initials(name) {
-  return String(name || "")
-    .trim()
-    .split(/\s+/)
-    .map(p => p[0] || "")
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-}
-
-// ---- 자동 초기화(버전 체크 + 강제 리셋 쿼리)
-function resetToSeed() {
-  localStorage.setItem(VERSION_KEY, APP_VERSION);
-  saveFriends(SEED);
-  friends = SEED.slice();
-}
-function bootstrapVersion() {
-  const params = new URLSearchParams(location.search);
-
-  // 1) URL로 강제 초기화 (?reset=1)
-  if (params.get("reset") === "1") {
-    resetToSeed();
-    return;
+  // 이름에서 앞 두 글자만 추출해서 대문자로
+  const parts = name.trim().split(" ");
+  let result = "";
+  for (let p of parts) {
+    result += p[0];
   }
-
-  // 2) 버전 체크 - 다르면 SEED로 교체
-  const currentVer = localStorage.getItem(VERSION_KEY);
-  if (currentVer !== APP_VERSION) {
-    resetToSeed();
-  } else {
-    // 3) 버전 동일: 저장소가 비어있으면 채우기, 아니면 그대로
-    if (!localStorage.getItem(STORAGE_KEY)) {
-      saveFriends(SEED);
-    }
-    friends = loadFriends();
-  }
+  return result.substring(0, 2).toUpperCase();
 }
 
-// ---- 목록 렌더(행 전체 클릭 → view.html?id=...)
+// ---- 목록 화면 그리기 (index.html)
 function renderTable() {
   const tbody = document.getElementById("list-body");
   if (!tbody) return;
 
-  tbody.innerHTML = friends
-    .map(f => {
-      const avatar = f.avatar
-        ? `<img src="${esc(f.avatar)}" alt="" class="avatar">`
-        : `<span class="avatar avatar-initials">${esc(initials(f.name))}</span>`;
-      return `
-        <tr class="friend-row" data-id="${esc(f.id)}" tabindex="0">
-          <td class="cell-avatar">${avatar}</td>
-          <td class="cell-name"   data-label="Name">${esc(f.name)}</td>
-          <td class="cell-phone"  data-label="Phone">${esc(f.phone || "")}</td>
-          <td class="cell-email"  data-label="Email">${esc(f.email || "")}</td>
-          <td class="cell-bday"   data-label="Birthday">${esc(f.birthday || "")}</td>
-        </tr>
-      `;
-    })
-    .join("");
+  tbody.innerHTML = friends.map(f => {
+    const avatar = f.avatar
+      ? `<img src="${esc(f.avatar)}" alt="" class="avatar">`
+      : `<span class="avatar avatar-initials">${esc(initials(f.name))}</span>`;
+    return `
+      <tr class="friend-row" data-id="${esc(f.id)}">
+        <td>${avatar}</td>
+        <td>${esc(f.name)}</td>
+        <td>${esc(f.phone || "")}</td>
+        <td>${esc(f.email || "")}</td>
+        <td>${esc(f.birthday || "")}</td>
+      </tr>
+    `;
+  }).join("");
 
+  // 각 행을 클릭하면 상세보기 페이지로 이동
   document.querySelectorAll(".friend-row").forEach(row => {
     row.addEventListener("click", () => {
       const id = row.dataset.id;
-      window.location.href = `view.html?id=${encodeURIComponent(id)}`;
-    });
-    row.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        row.click();
-      }
+      window.location.href = "view.html?id=" + encodeURIComponent(id);
     });
   });
 }
 
-// ---- 상세 보기(3열 카드, 버튼 중앙 + 너비 통일)
+// ---- 상세 보기 (view.html)
 function renderView() {
   const wrap = document.getElementById("view-wrap");
   if (!wrap) return;
 
   const id = new URLSearchParams(location.search).get("id");
-  if (!id) {
-    wrap.innerHTML = `<p>No data selected <a href="index.html">List</a></p>`;
-    return;
-  }
-
   const f = friends.find(x => x.id === id);
+
   if (!f) {
-    wrap.innerHTML = `<p>ID <code>${esc(id)}</code> No data <a href="index.html">List</a></p>`;
+    wrap.innerHTML = "<p>No data</p>";
     return;
   }
 
   wrap.innerHTML = `
     <div class="kv-grid">
-      <div class="kv"><div class="k">Name</div><div class="v">${esc(f.name || "")}</div></div>
-      <div class="kv"><div class="k">Phone</div><div class="v">${esc(f.phone || "")}</div></div>
-      <div class="kv"><div class="k">Email</div><div class="v">${esc(f.email || "")}</div></div>
-      <div class="kv"><div class="k">Birthday</div><div class="v">${esc(f.birthday || "")}</div></div>
-      <div class="kv"><div class="k">Address</div><div class="v">${esc(f.address || "")}</div></div>
-      <div class="kv"><div class="k">Relation</div><div class="v">${esc(f.relation || "")}</div></div>
+      <div>Name: ${esc(f.name)}</div>
+      <div>Phone: ${esc(f.phone)}</div>
+      <div>Email: ${esc(f.email)}</div>
+      <div>Birthday: ${esc(f.birthday)}</div>
+      <div>Address: ${esc(f.address)}</div>
+      <div>Relation: ${esc(f.relation)}</div>
     </div>
-
-    <div class="uk-margin-top action-bar">
-      <a class="uk-button uk-button-primary btn-eq" href="edit.html?id=${encodeURIComponent(f.id)}">Edit</a>
-      <button id="delBtn" class="uk-button uk-button-danger btn-eq">Delete</button>
+    <div class="action-bar">
+      <a href="edit.html?id=${encodeURIComponent(f.id)}">Edit</a>
+      <button id="delBtn">Delete</button>
     </div>
   `;
 
+  // 삭제 버튼 처리
   const del = document.getElementById("delBtn");
   if (del) {
     del.onclick = () => {
       if (confirm("Delete?")) {
         friends = friends.filter(x => x.id !== id);
         saveFriends(friends);
-        alert("Deleted");
         location.href = "index.html";
       }
     };
   }
 }
 
-// ---- 추가
+// ---- 추가 (add.html)
 function bindAdd() {
   const form = document.getElementById("add-form");
   if (!form) return;
@@ -197,19 +158,21 @@ function bindAdd() {
   form.onsubmit = e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
+
+    // 필수 입력 확인
     if (!data.name || !data.relation || !data.phone || !data.email) {
       alert("Fill out the requirements");
       return;
     }
-    data.id = "F" + Date.now();
+
+    data.id = "F" + Date.now();  // 고유 ID 생성
     friends.push(data);
     saveFriends(friends);
-    alert("Added");
     location.href = "index.html";
   };
 }
 
-// ---- 수정
+// ---- 수정 (edit.html)
 function bindEdit() {
   const form = document.getElementById("edit-form");
   if (!form) return;
@@ -221,36 +184,33 @@ function bindEdit() {
     return;
   }
 
-  form.name.value      = f.name || "";
-  form.phone.value     = f.phone || "";
-  form.email.value     = f.email || "";
-  form.birthday.value  = f.birthday || "";
-  form.address.value   = f.address || "";
-  form.relation.value  = f.relation || "";
+  // 기존 값 채워넣기
+  form.name.value = f.name;
+  form.phone.value = f.phone;
+  form.email.value = f.email;
+  form.birthday.value = f.birthday;
+  form.address.value = f.address;
+  form.relation.value = f.relation;
 
+  // 저장 버튼 처리
   form.onsubmit = e => {
     e.preventDefault();
-    if (confirm("Edit?")) {
-      f.name      = form.name.value;
-      f.phone     = form.phone.value;
-      f.email     = form.email.value;
-      f.birthday  = form.birthday.value;
-      f.address   = form.address.value;
-      f.relation  = form.relation.value;
+    f.name = form.name.value;
+    f.phone = form.phone.value;
+    f.email = form.email.value;
+    f.birthday = form.birthday.value;
+    f.address = form.address.value;
+    f.relation = form.relation.value;
 
-      saveFriends(friends);
-      alert("Edited");
-      location.href = "view.html?id=" + encodeURIComponent(id);
-    }
+    saveFriends(friends);
+    location.href = "view.html?id=" + encodeURIComponent(id);
   };
 }
 
-// ---- 초기화(렌더 전에 버전 부트스트랩!)
+// ---- 페이지 로드 시 실행
 document.addEventListener("DOMContentLoaded", () => {
-  bootstrapVersion();   // ✨ 여기서 friends 세팅/초기화 끝냄
-
-  renderTable();  // index에만 적용됨(없으면 패스)
-  renderView();   // view에만 적용됨(없으면 패스)
-  bindAdd();      // add에만 적용
-  bindEdit();     // edit에만 적용
+  renderTable();  // index 페이지
+  renderView();   // view 페이지
+  bindAdd();      // add 페이지
+  bindEdit();     // edit 페이지
 });
