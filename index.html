@@ -1,5 +1,3 @@
-<!-- url: https://2025ooshw3.netlify.app/ -->
-
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -16,10 +14,21 @@
 <body>
     <main class="uk-section uk-section-small">
         <div class="uk-container uk-container-small">
-            <div class="uk-flex uk-flex-between uk-flex-middle uk-margin-small">
-                <h1 class="uk-h3">Friends</h1>
-                <a class="uk-button uk-button-primary" href="add.html"><span uk-icon="plus"></span></a>
+
+            <!-- 맨 위 네비 -->
+            <ul class="uk-subnav uk-subnav-divider uk-margin-small-top uk-margin-small-bottom">
+                <li><a href="https://2025ooshw.netlify.app/">Home</a></li>
+                <li><a href="js_dynamic.html">Lab1</a></li>
+            </ul>
+
+            <!-- 두 번째 줄: + 버튼만 오른쪽 정렬 -->
+            <div class="uk-flex uk-flex-right uk-margin-small">
+                <a class="uk-button uk-button-primary" href="add.html">
+                    <span uk-icon="plus"></span>
+                </a>
             </div>
+
+            <!-- 목록 테이블 -->
             <div class="uk-overflow-auto">
                 <table class="uk-table uk-table-divider uk-table-middle">
                     <thead>
@@ -31,15 +40,13 @@
                             <th>Birthday</th>
                         </tr>
                     </thead>
-
                     <tbody id="list-body"></tbody>
                 </table>
             </div>
         </div>
     </main>
-    <script src="app.js"></script>
 
-    <a href="js_dynamic.html">Lab1</a>
+    <script src="app.js"></script>
 </body>
 
 </html>
